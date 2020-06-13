@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Header from './components/Header'
+import AddTodo from './components/AddTodo'
 import Todos from './components/Todos'
 
 import './App.css'
@@ -43,11 +44,30 @@ class App extends React.Component {
     })
   }
 
+  addTodoItem = (title) => {
+    const newTodo = {
+      id: this.state.todos.length + 1,
+      title: title,
+      is_done: false
+    }
+
+    this.setState({
+      todos: [...this.state.todos, newTodo]  
+    })
+  }
+
   render() {
     return (
       <div>
-        <Header />
-        <Todos todos={this.state.todos} toggleItemStatus={this.toggleItemStatus} deleteTodoItem={this.deleteTodoItem} />
+        <div className="container">
+          <Header />
+          <AddTodo addTodoItem={this.addTodoItem} />
+          <Todos 
+            todos={this.state.todos} 
+            toggleItemStatus={this.toggleItemStatus} 
+            deleteTodoItem={this.deleteTodoItem}
+          />
+        </div>
       </div>
     )
   }
