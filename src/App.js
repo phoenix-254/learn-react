@@ -2,6 +2,8 @@ import React from 'react'
 
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import axios from 'axios'
+
 import About from './components/pages/About'
 
 import Header from './components/layout/Header'
@@ -13,30 +15,22 @@ import './App.css'
 
 class App extends React.Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        title: 'Learn React - 1 Hour',
-        is_done: false
-      },
-      {
-        id: 2,
-        title: 'June Leetcode Challange',
-        is_done: false
-      },
-      {
-        id: 3,
-        title: 'Cloud Developer Nanodegree',
-        is_done: false
-      }
-    ]
+    todos: []
+  }
+
+  componentDidMount() {
+    axios
+    .get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+    .then(res => {
+      this.setState({ todos: res.data })
+    }) 
   }
 
   toggleItemStatus = (id) => {
     this.setState({
       todos: this.state.todos.map((todo) => {
         if (todo.id === id) {
-          todo.is_done = !todo.is_done
+          todo.completed = !todo.completed
         }
         return todo
       })
@@ -44,20 +38,23 @@ class App extends React.Component {
   }
 
   deleteTodoItem = (id) => {
-    this.setState({
-      todos: [...this.state.todos.filter((todo) => todo.id !== id)]
+    axios
+    .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+    .then(res => {
+      this.setState({
+        todos: [...this.state.todos.filter((todo) => todo.id !== id)]
+      })
     })
   }
 
   addTodoItem = (title) => {
-    const newTodo = {
-      id: this.state.todos.length + 1,
-      title: title,
-      is_done: false
-    }
-
-    this.setState({
-      todos: [...this.state.todos, newTodo]  
+    axios
+    .post('https://jsonplaceholder.typicode.com/todos', {
+      title: title, 
+      completed: false
+    })
+    .then(res => {
+      this.setState({ todos: [...this.state.todos, res.data] })
     })
   }
 

@@ -7,20 +7,32 @@ export class TodoItem extends Component {
       background: '#f4f4f4',
       padding: '10px',
       borderBottom: '1px #ccc dotted',
-      textDecoration: this.props.data.is_done ? 'line-through' : 'none'
+      textDecoration: this.props.data.completed ? 'line-through' : 'none'
     }
   }
   
   render() {
-    const { id, title } = this.props.data;
+    const { id, title, completed } = this.props.data;
 
     return (
       <div style={this.getStyle()}>
         <p> 
-          <input style={{ margin: '5px' }} type='checkbox' onChange={this.props.toggleItemStatus.bind(this, id)} /> 
+          <input 
+            style={{ margin: '5px' }} 
+            type='checkbox' 
+            checked={completed} 
+            onChange={this.props.toggleItemStatus.bind(this, id)} 
+          /> 
+          
           {' '} 
+          
           { title }
-          <button style={deleteButtonStyle} onClick={this.props.deleteTodoItem.bind(this, id)}>X</button>
+          
+          <button 
+            style={deleteButtonStyle} 
+            onClick={this.props.deleteTodoItem.bind(this, id)}>
+            X
+          </button>
         </p>
       </div>
    )
@@ -29,7 +41,9 @@ export class TodoItem extends Component {
 
 // Prop Types
 TodoItem.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  toggleItemStatus: PropTypes.func.isRequired,
+  deleteTodoItem: PropTypes.func.isRequired
 }
 
 const deleteButtonStyle = {
