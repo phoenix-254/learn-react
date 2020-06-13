@@ -1,4 +1,6 @@
 import React from 'react'
+
+import Header from './components/Header'
 import Todos from './components/Todos'
 
 import './App.css'
@@ -44,6 +46,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Header />
         <Todos todos={this.state.todos} toggleItemStatus={this.toggleItemStatus} deleteTodoItem={this.deleteTodoItem} />
       </div>
     )
