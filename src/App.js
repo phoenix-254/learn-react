@@ -1,8 +1,13 @@
 import React from 'react'
 
-import Header from './components/Header'
-import AddTodo from './components/AddTodo'
-import Todos from './components/Todos'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
+import About from './components/pages/About'
+
+import Header from './components/layout/Header'
+
+import AddTodo from './components/todos/AddTodo'
+import Todos from './components/todos/Todos'
 
 import './App.css'
 
@@ -58,17 +63,26 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="container">
-          <Header />
-          <AddTodo addTodoItem={this.addTodoItem} />
-          <Todos 
-            todos={this.state.todos} 
-            toggleItemStatus={this.toggleItemStatus} 
-            deleteTodoItem={this.deleteTodoItem}
-          />
+      <Router>
+        <div>
+          <div className="container">
+            <Header />
+            
+            <Route exact path="/" render={props => (
+              <React.Fragment>
+                <AddTodo addTodoItem={this.addTodoItem} />
+                <Todos 
+                  todos={this.state.todos} 
+                  toggleItemStatus={this.toggleItemStatus} 
+                  deleteTodoItem={this.deleteTodoItem}
+                />
+              </React.Fragment>
+            )} />
+            
+            <Route path="/about" component={About} />
+          </div>
         </div>
-      </div>
+      </Router>
     )
   }
 }
