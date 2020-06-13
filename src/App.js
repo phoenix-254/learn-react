@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Todos from './components/Todos'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+
+class App extends React.Component {
+  state = {
+    todos: [
+      {
+        id: 1,
+        title: 'Learn React - 1 Hour',
+        is_done: false
+      },
+      {
+        id: 2,
+        title: 'June Leetcode Challange',
+        is_done: false
+      },
+      {
+        id: 3,
+        title: 'Cloud Developer Nanodegree',
+        is_done: false
+      }
+    ]
+  }
+
+  toggleItemStatus = (id) => {
+    this.setState({
+      todos: this.state.todos.map((todo) => {
+        if (todo.id === id) {
+          todo.is_done = !todo.is_done
+        }
+        return todo
+      })
+    })
+  }
+
+  deleteTodoItem = (id) => {
+    this.setState({
+      todos: [...this.state.todos.filter((todo) => todo.id !== id)]
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <Todos todos={this.state.todos} toggleItemStatus={this.toggleItemStatus} deleteTodoItem={this.deleteTodoItem} />
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
